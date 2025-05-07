@@ -34,7 +34,7 @@ class SetupCommand extends Command
         }
 
         // Jalankan migrasi dan seeder secara paksa (tanpa konfirmasi)
-        $this->call('migrate', ['--force' => true]);
+        $this->call('migrate:fresh', ['--force' => true]);
         $this->info('✅ Migrasi database selesai.');
 
         $this->call('db:seed', ['--force' => true]);
@@ -45,10 +45,7 @@ class SetupCommand extends Command
         $this->info('✅ Symbolic link ke storage dibuat.');
 
         // Bersihkan dan buat cache
-        $this->callSilent('config:clear');
-        $this->callSilent('route:clear');
-        $this->callSilent('view:clear');
-        $this->callSilent('event:clear');
+        $this->callSilent('optimize');
 
         $this->callSilent('config:cache');
         $this->callSilent('route:cache');
