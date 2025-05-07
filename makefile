@@ -5,12 +5,14 @@ install:
 	composer install --no-dev --optimize-autoloader
 
 	@echo "🔐 Mengatur permission vendor dan storage..."
-	chown -R www-data:www-data storage bootstrap/cache
 	chmod -R 755 vendor
 	chmod -R 775 storage bootstrap/cache
 
 	@echo "⚙️ Menjalankan php artisan app:install..."
 	php artisan app:install
+
+	@echo "🔐 Mengatur access user storage..."
+	chown -R www-data:www-data storage bootstrap/cache
 
 migrate:
 	@ehco "Menjalankan fresh migrate"
