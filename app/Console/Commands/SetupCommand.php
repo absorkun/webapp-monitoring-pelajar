@@ -28,10 +28,8 @@ class SetupCommand extends Command
         $this->info('🚀 Menjalankan instalasi untuk mode production...');
 
         // Generate key jika belum ada
-        if (empty(config('app.key'))) {
-            $this->callSilent('key:generate', ['--force' => true]);
-            $this->info('✅ APP_KEY berhasil dibuat.');
-        }
+        $this->callSilent('key:generate', ['--force' => true]);
+        $this->info('✅ APP_KEY berhasil dibuat.');
 
         // Jalankan migrasi dan seeder secara paksa (tanpa konfirmasi)
         $this->call('migrate:fresh', ['--force' => true]);
