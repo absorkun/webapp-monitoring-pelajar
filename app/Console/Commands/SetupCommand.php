@@ -32,7 +32,7 @@ class SetupCommand extends Command
         $this->info('✅ APP_KEY berhasil dibuat.');
 
         // Jalankan migrasi dan seeder secara paksa (tanpa konfirmasi)
-        $this->call('migrate:fresh', ['--force' => true]);
+        $this->call('migrate', ['--force' => true]);
         $this->info('✅ Migrasi database selesai.');
 
         $this->call('db:seed', ['--force' => true]);
