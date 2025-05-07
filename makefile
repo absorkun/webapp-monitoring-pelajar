@@ -9,14 +9,17 @@ install:
 	chmod -R 775 storage bootstrap/cache
 
 	@echo "⚙️ Menjalankan php artisan app:install..."
-	php artisan app:install
+	php artisan app:setup
 
 	@echo "🔐 Mengatur access user storage..."
-	chown -R www-data:www-data storage bootstrap/cache
+	sudo chown -R www-data:www-data storage bootstrap/cache
 
 migrate:
 	@ehco "Menjalankan fresh migrate"
 	php artisan migrate:fresh --force
+
+group:
+	sudo chgrp -R www-data storage bootstrap/cache
 
 seed:
 	@echo "Menjalankan database seed"
@@ -24,12 +27,12 @@ seed:
 
 caddy:
 	@echo "🔐 Mengatur permission vendor dan storage..."
-	chown -R caddy:caddy storage bootstrap/cache
 	chmod -R 755 vendor
 	chmod -R 775 storage bootstrap/cache
+	chown -R www-data:www-data storage bootstrap/cache
 
 user:
 	@echo "🔐 Mengatur permission vendor dan storage..."
-	chown -R $USER:$USER storage bootstrap/cache
 	chmod -R 755 vendor
 	chmod -R 775 storage bootstrap/cache
+	sudo chown -R $USER:$USER storage bootstrap/cache
