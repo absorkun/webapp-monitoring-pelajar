@@ -3,20 +3,15 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Exports\UserExporter;
-use App\Filament\Imports\UserImporter;
 use App\Filament\Resources\UserResource\Pages;
-use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
 use Filament\Actions\Exports\Enums\ExportFormat;
 use Filament\Facades\Filament;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Support\Colors\Color;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class UserResource extends Resource
 {
@@ -26,7 +21,7 @@ class UserResource extends Resource
 
     protected static ?string $label = 'Data Pengguna';
 
-    public static function canViewAny(): bool
+    public static function canAccess(): bool
     {
         return Filament::auth()->user()->isAdmin();
     }
@@ -95,32 +90,7 @@ class UserResource extends Resource
                         ]),
                 ]),
             ])
-            ->recordUrl(null)
-            ->headerActions([
-                Tables\Actions\ExportAction::make()
-                    ->label(__('Ekspor'))
-                    ->exporter(UserExporter::class)
-                    ->fileDisk('public')
-                    ->formats([
-                        ExportFormat::Xlsx,
-                    ])
-                    ->color(Color::Cyan),
-                Tables\Actions\ImportAction::make()
-                    ->label(__('Impor'))
-                    ->importer(UserImporter::class)
-                    ->color(Color::Green),
-                // Tables\Actions\Action::make('filter_by_role')
-                //     ->label('Filter')
-                //     ->form([
-                //         Forms\Components\Select::make('role')
-                //             ->options(User::getRolesOptions)
-                //             ->label('Role'),
-                //     ])
-                //     ->color(Color::Amber)
-                //     ->action(function (array $data, $livewire) {
-                //         $livewire->tableFilters['role']['value'] = $data['role'];
-                //     }),
-            ]);
+            ->recordUrl(null);
     }
 
     public static function getRelations(): array

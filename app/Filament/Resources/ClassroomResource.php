@@ -5,14 +5,13 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ClassroomResource\Pages;
 use App\Filament\Resources\ClassroomResource\RelationManagers;
 use App\Models\Classroom;
-use App\Models\Student;
+use Filament\Facades\Filament;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Database\Eloquent\Model;
 
 class ClassroomResource extends Resource
 {
@@ -21,6 +20,26 @@ class ClassroomResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-group';
 
     protected static ?string $label = 'Ruang Kelas';
+
+    public static function canview(Model $record): bool
+    {
+        return Filament::auth()->user()->isAdmin();
+    }
+
+    public static function canEdit(Model $record): bool
+    {
+        return Filament::auth()->user()->isAdmin();
+    }
+
+    public static function canDelete(Model $record): bool
+    {
+        return Filament::auth()->user()->isAdmin();
+    }
+
+    public static function canDeleteAny(): bool
+    {
+        return Filament::auth()->user()->isAdmin();
+    }
 
     public static function form(Form $form): Form
     {
@@ -44,7 +63,7 @@ class ClassroomResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->formatStateUsing(fn ($state) => strtoupper($state))
+                    ->formatStateUsing(fn($state) => strtoupper($state))
                     ->label('Nama Kelas')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('grade')

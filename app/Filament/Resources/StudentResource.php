@@ -2,20 +2,16 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Exports\StudentExporter;
-use App\Filament\Imports\StudentImporter;
 use App\Filament\Resources\StudentResource\Pages;
-use App\Filament\Resources\StudentResource\RelationManagers;
 use App\Models\Student;
-use Filament\Actions\Exports\Enums\ExportFormat;
+use Filament\Facades\Filament;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Support\Colors\Color;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Database\Eloquent\Model;
 
 class StudentResource extends Resource
 {
@@ -24,6 +20,26 @@ class StudentResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
 
     protected static ?string $label = 'Data Siswa';
+
+    public static function canView(Model $record): bool
+    {
+        return $record->user->isAdmin();
+    }
+
+    public static function canEdit(Model $record): bool
+    {
+        return $record->user->isAdmin();
+    }
+
+    public static function canDelete(Model $record): bool
+    {
+        return $record->user->isAdmin();
+    }
+
+    public static function canDeleteAny(): bool
+    {
+        return Filament::auth()->user()->isAdmin();
+    }
 
     public static function form(Form $form): Form
     {
@@ -73,11 +89,13 @@ class StudentResource extends Resource
                 Tables\Columns\TextColumn::make('user.email')
                     ->label('Email')
                     ->numeric()
+                    ->hidden(fn() => ! Filament::auth()->user()->isAdmin())
                     ->sortable(),
                 Tables\Columns\IconColumn::make('is_active')
                     ->label('Status Keaktifan')
                     ->boolean()
                     ->alignCenter()
+                    ->hidden(fn() => ! Filament::auth()->user()->isAdmin())
                     ->sortable(),
             ])
             ->filters([
@@ -98,20 +116,6 @@ class StudentResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ])
-            ->headerActions([
-                Tables\Actions\ExportAction::make()
-                    ->label(__('Ekspor'))
-                    ->exporter(StudentExporter::class)
-                    ->fileDisk('public')
-                    ->formats([
-                        ExportFormat::Xlsx,
-                    ])
-                    ->color(Color::Cyan),
-                Tables\Actions\ImportAction::make()
-                    ->label(__('Impor'))
-                    ->importer(StudentImporter::class)
-                    ->color(Color::Green),
             ])
             ->recordUrl(null);
     }
