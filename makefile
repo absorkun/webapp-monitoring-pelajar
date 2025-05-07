@@ -1,6 +1,9 @@
 .PHONY: install
 
 install:
+	@echo "📦 Menghapus database Laravel jika ada..."
+	mysql -u root -p -e "DROP DATABASE IF EXISTS  laravel;"
+	
 	@echo "📦 Menjalankan composer install..."
 	composer install --no-dev --optimize-autoloader
 
