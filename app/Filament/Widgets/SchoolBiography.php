@@ -20,6 +20,7 @@ class SchoolBiography extends Widget
             'email' => $user->email,
             'role' => $user->role,
             'created_at' => $user->created_at,
+            'classroom' => $user->student->classroom->name ?? '',
         ];
     }
 }

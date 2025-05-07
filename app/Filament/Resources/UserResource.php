@@ -24,7 +24,7 @@ class UserResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
-    protected static ?string $label = 'Pengguna';
+    protected static ?string $label = 'Data Pengguna';
 
     public static function canViewAny(): bool
     {
@@ -40,10 +40,13 @@ class UserResource extends Resource
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('email')
+                    ->label('Email/Username')
+                    ->unique()
                     ->required()
                     ->maxLength(255),
                 Forms\Components\Select::make('role')
                     ->options(User::getRolesOptions)
+                    ->label('Role/Peran')
                     ->required(),
                 Forms\Components\TextInput::make('password')
                     ->password()
@@ -61,7 +64,7 @@ class UserResource extends Resource
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
-                    ->label('Username')
+                    ->label('Email/Username')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('role')
                     ->badge()
@@ -78,7 +81,9 @@ class UserResource extends Resource
                     ->options(User::getRolesOptions),
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -92,28 +97,29 @@ class UserResource extends Resource
             ])
             ->recordUrl(null)
             ->headerActions([
-                Tables\Actions\ImportAction::make()
-                    ->label(__('Impor'))
-                    ->importer(UserImporter::class)
-                    ->color(Color::Orange),
                 Tables\Actions\ExportAction::make()
                     ->label(__('Ekspor'))
                     ->exporter(UserExporter::class)
+                    ->fileDisk('public')
                     ->formats([
                         ExportFormat::Xlsx,
                     ])
-                    ->color(Color::Emerald),
-                Tables\Actions\Action::make('filter_by_role')
-                    ->label('Filter')
-                    ->form([
-                        Forms\Components\Select::make('role')
-                            ->options(User::getRolesOptions)
-                            ->label('Role'),
-                    ])
-                    ->color(Color::Amber)
-                    ->action(function (array $data, $livewire) {
-                        $livewire->tableFilters['role']['value'] = $data['role'];
-                    }),
+                    ->color(Color::Cyan),
+                Tables\Actions\ImportAction::make()
+                    ->label(__('Impor'))
+                    ->importer(UserImporter::class)
+                    ->color(Color::Green),
+                // Tables\Actions\Action::make('filter_by_role')
+                //     ->label('Filter')
+                //     ->form([
+                //         Forms\Components\Select::make('role')
+                //             ->options(User::getRolesOptions)
+                //             ->label('Role'),
+                //     ])
+                //     ->color(Color::Amber)
+                //     ->action(function (array $data, $livewire) {
+                //         $livewire->tableFilters['role']['value'] = $data['role'];
+                //     }),
             ]);
     }
 

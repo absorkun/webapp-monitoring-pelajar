@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -29,16 +30,27 @@ class User extends Authenticatable
         return $this->attributes['role'] === 'admin';
     }
 
-    public function isNotStudent()
+    public function isGuru()
     {
-        return $this->attributes['role'] === 'admin' && $this->attributes['role'] === 'guru';
+        return $this->attributes['role'] === 'guru';
     }
+
+    public function isSiswa()
+    {
+        return $this->attributes['role'] === 'siswa';
+    }
+
 
     public const getRolesOptions = [
         'admin' => 'Admin',
         'guru' => 'Guru',
         'siswa' => 'Siswa',
     ];
+
+    public function student(): HasOne
+    {
+        return $this->hasOne(Student::class);
+    }
 
     /**
      * The attributes that should be hidden for serialization.
