@@ -26,6 +26,11 @@ class StudentResource extends Resource
         return $record->user->isAdmin();
     }
 
+    public static function canCreate(): bool
+    {
+        return Filament::auth()->user()->isAdmin();
+    }
+
     public static function canEdit(Model $record): bool
     {
         return $record->user->isAdmin();
@@ -47,7 +52,7 @@ class StudentResource extends Resource
             ->schema([
                 Forms\Components\Select::make('user_id')
                     ->relationship('user', 'email', fn(Builder $query) => $query->where('role', 'siswa')->whereDoesntHave('student'))
-                    ->unique()
+                    ->unique(ignoreRecord: true)
                     ->label('Username/Email')
                     ->required(),
                 Forms\Components\TextInput::make('name')
@@ -59,6 +64,12 @@ class StudentResource extends Resource
                     ->numeric()
                     ->required()
                     ->maxLength(255),
+                Forms\Components\Radio::make('gender')
+                    ->label('Jenis Kelamin')
+                    ->options(Student::getGenders)
+                    ->formatStateUsing(fn($state) => strtoupper($state))
+                    ->inline(false)
+                    ->required(),
                 Forms\Components\Select::make('classroom_id')
                     ->label('Kelas')
                     ->relationship('classroom', 'name'),
@@ -86,6 +97,17 @@ class StudentResource extends Resource
                     ->label('Kelas')
                     ->numeric()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('gender')
+                    ->label('Jenis Kelamin')
+                    ->badge()
+                    ->formatStateUsing(fn($state) => match ($state) {
+                        'L' => 'Laki-laki',
+                        'P' => 'Perempuan',
+                    })
+                    ->color(fn($state) => match ($state) {
+                        'L' => 'primary',
+                        'P' => 'danger',
+                    }),
                 Tables\Columns\TextColumn::make('user.email')
                     ->label('Email')
                     ->numeric()

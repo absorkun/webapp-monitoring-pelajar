@@ -2,26 +2,28 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ClassroomResource\Pages;
-use App\Filament\Resources\ClassroomResource\RelationManagers;
-use App\Models\Classroom;
+use App\Filament\Resources\SubjectResource\Pages;
+use App\Filament\Resources\SubjectResource\RelationManagers;
+use App\Models\Subject;
 use Filament\Facades\Filament;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class ClassroomResource extends Resource
+class SubjectResource extends Resource
 {
-    protected static ?string $model = Classroom::class;
+    protected static ?string $model = Subject::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-group';
+    protected static ?string $navigationIcon = 'heroicon-o-circle-stack';
 
-    protected static ?string $label = 'Ruang Kelas';
+    protected static ?string $label = 'Mata Pelajaran';
 
-    public static function canview(Model $record): bool
+    public static function canView(Model $record): bool
     {
         return Filament::auth()->user()->isAdmin();
     }
@@ -51,9 +53,6 @@ class ClassroomResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
-                    ->label('Nama Kelas')
-                    ->unique(ignoreRecord: true)
-                    ->formatStateUsing(fn($state) => strtoupper($state))
                     ->required()
                     ->maxLength(255),
             ]);
@@ -64,12 +63,16 @@ class ClassroomResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->formatStateUsing(fn($state) => strtoupper($state))
-                    ->label('Nama Kelas')
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('students')
-                    ->label('Jumlah Siswa')
-                    ->formatStateUsing(fn($state, $record) => $record->students()->count())
+                    ->sortable()
+                    ->searchable(),
+                // Tables\Columns\TextColumn::make('created_at')
+                //     ->dateTime()
+                //     ->sortable()
+                //     ->toggleable(isToggledHiddenByDefault: true),
+                // Tables\Columns\TextColumn::make('updated_at')
+                //     ->dateTime()
+                //     ->sortable()
+                //     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //
@@ -90,16 +93,16 @@ class ClassroomResource extends Resource
     public static function getRelations(): array
     {
         return [
-            RelationManagers\StudentsRelationManager::class,
+            //
         ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListClassrooms::route('/'),
-            'create' => Pages\CreateClassroom::route('/create'),
-            'edit' => Pages\EditClassroom::route('/{record}/edit'),
+            'index' => Pages\ListSubjects::route('/'),
+            'create' => Pages\CreateSubject::route('/create'),
+            'edit' => Pages\EditSubject::route('/{record}/edit'),
         ];
     }
 }

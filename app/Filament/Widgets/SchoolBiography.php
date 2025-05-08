@@ -15,12 +15,25 @@ class SchoolBiography extends Widget
     {
         $user = Filament::auth()->user();
 
+        if ($user->isAdmin()) {
+            return [
+                'name' => $user->name,
+                'email' => $user->email,
+                'role' => $user->role,
+                'created_at' => $user->created_at,
+            ];
+        }
+
         return [
             'name' => $user->name,
             'email' => $user->email,
             'role' => $user->role,
             'created_at' => $user->created_at,
             'classroom' => $user->student->classroom->name ?? '',
+            'gender' => match ($user->student->gender) {
+                'L' => 'Laki-laki',
+                'P' => 'Perempuan',
+            } ?? '',
         ];
     }
 }

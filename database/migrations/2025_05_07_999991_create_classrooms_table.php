@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('classrooms', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
-            $table->string('grade');
             $table->timestamps();
         });
     }

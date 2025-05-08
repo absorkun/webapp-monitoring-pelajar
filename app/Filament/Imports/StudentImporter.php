@@ -20,13 +20,17 @@ class StudentImporter extends Importer
                 ->rules(['required']),
             ImportColumn::make('classroom')
                 ->relationship(resolveUsing: ['id', 'name'])
-                ->castStateUsing(fn($state) => strtolower($state)),
+                ->castStateUsing(fn($state) => strtoupper($state)),
             ImportColumn::make('name')
                 ->requiredMapping()
                 ->rules(['required', 'max:255']),
             ImportColumn::make('nisn')
                 ->requiredMapping()
                 ->rules(['required', 'max:255']),
+            ImportColumn::make('gender')
+                ->requiredMapping()
+                ->castStateUsing(fn($state) => strtoupper($state))
+                ->rules(['required']),
             // ImportColumn::make('is_active')
             //     ->requiredMapping()
             //     ->boolean()

@@ -36,7 +36,7 @@ class UserResource extends Resource
                     ->maxLength(255),
                 Forms\Components\TextInput::make('email')
                     ->label('Email/Username')
-                    ->unique()
+                    ->unique(ignoreRecord: true)
                     ->required()
                     ->maxLength(255),
                 Forms\Components\Select::make('role')
@@ -45,7 +45,8 @@ class UserResource extends Resource
                     ->required(),
                 Forms\Components\TextInput::make('password')
                     ->password()
-                    ->required()
+                    ->dehydrated(fn($state) => filled($state))
+                    ->required(fn($context) => $context === 'create')
                     ->maxLength(255),
             ]);
     }

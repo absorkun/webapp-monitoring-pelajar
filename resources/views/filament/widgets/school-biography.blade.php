@@ -27,6 +27,34 @@
                 </div>
             </div>
 
+            {{-- Khusus Siswa --}}
+            @if (Filament\Facades\Filament::auth()->user()->isSiswa())
+                {{-- Class --}}
+                <div class="flex items-start gap-4 mb-5">
+                    <div
+                        class="flex h-9 w-9 items-center justify-center rounded-lg bg-amber-50 text-amber-600 dark:bg-amber-500/10 dark:text-amber-400">
+                        <x-heroicon-s-rectangle-group class="h-5 w-5" />
+                    </div>
+                    <div class="space-y-1">
+                        <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Kelas</p>
+                        <p class="text-base font-medium text-gray-900 dark:text-white">
+                            {{ ucwords($classroom) }}</p>
+                    </div>
+                </div>
+                {{-- Gender --}}
+                <div class="flex items-start gap-4 mb-5">
+                    <div
+                        class="flex h-9 w-9 items-center justify-center rounded-lg bg-amber-50 text-amber-600 dark:bg-amber-500/10 dark:text-amber-400">
+                        <x-heroicon-s-shield-check class="h-5 w-5" />
+                    </div>
+                    <div class="space-y-1">
+                        <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Jenis Kelamin</p>
+                        <p class="text-base font-medium text-gray-900 dark:text-white">
+                            {{ $gender }}</p>
+                    </div>
+                </div>
+            @endif
+
             <!-- Role -->
             <div class="flex items-start gap-4 mb-5">
                 <div
@@ -34,7 +62,7 @@
                     <x-heroicon-s-shield-exclamation class="h-5 w-5" />
                 </div>
                 <div class="space-y-1">
-                    <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Role</p>
+                    <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Role/Peran</p>
                     <p class="text-base font-medium text-gray-900 dark:text-white">{{ ucfirst($role) }}</p>
                 </div>
             </div>
@@ -51,34 +79,6 @@
                     </p>
                 </div>
             </div>
-
-            {{-- Khusus Siswa --}}
-            @if (Filament\Facades\Filament::auth()->user()->isSiswa())
-                {{-- Kelas --}}
-                <div class="flex items-start gap-4 mb-5">
-                    <div
-                        class="flex h-9 w-9 items-center justify-center rounded-lg bg-amber-50 text-amber-600 dark:bg-amber-500/10 dark:text-amber-400">
-                        <x-heroicon-s-rectangle-group class="h-5 w-5" />
-                    </div>
-                    <div class="space-y-1">
-                        <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Kelas</p>
-                        <p class="text-base font-medium text-gray-900 dark:text-white">
-                            {{ $classroom }}</p>
-                    </div>
-                </div>
-                {{-- Semester --}}
-                <div class="flex items-start gap-4 mb-5">
-                    <div
-                        class="flex h-9 w-9 items-center justify-center rounded-lg bg-amber-50 text-amber-600 dark:bg-amber-500/10 dark:text-amber-400">
-                        <x-heroicon-s-calendar-days class="h-5 w-5" />
-                    </div>
-                    <div class="space-y-1">
-                        <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Semester</p>
-                        <p class="text-base font-medium text-gray-900 dark:text-white">
-                            {{ $created_at->format('d M Y') }}</p>
-                    </div>
-                </div>
-            @endif
         </div>
     </x-filament::section>
 </x-filament-widgets::widget>
