@@ -5,11 +5,16 @@ namespace App\Providers\Filament;
 use App\Filament\Pages\Auth\Login;
 use App\Filament\Widgets\SchoolBiography;
 use App\Filament\Widgets\SchoolProfileWidget;
+use Filament\Facades\Filament;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\MenuItem;
+use Filament\Navigation\NavigationGroup;
+use Filament\Navigation\NavigationItem;
 use Filament\Pages;
+use Filament\Pages\Auth\EditProfile;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
@@ -33,9 +38,31 @@ class AdminPanelProvider extends PanelProvider
             ->brandLogo(asset('/storage/logo.webp'))
             ->login(Login::class)
             ->profile(isSimple: false)
+            ->userMenuItems([
+                'profile' => MenuItem::make()->label(fn() => Filament::auth()->user()->name),
+            ])
+            ->navigationItems([
+                NavigationItem::make()
+                    ->label('Profil')
+                    ->url(fn() => EditProfile::getUrl())
+                    ->icon('heroicon-o-user-circle')
+                    ->group('Pengaturan')
+                    ->isActiveWhen(fn(): bool => request()->routeIs(EditProfile::getRouteName())),
+            ])
+            ->navigationGroups([
+                NavigationGroup::make()
+                    ->label('Pengaturan')
+                    ->collapsed(false),
+                NavigationGroup::make()
+                    ->label('Master Data')
+                    ->collapsed(false),
+                NavigationGroup::make()
+                    ->label('Laporan')
+                    ->collapsed(false),
+            ])
             ->databaseNotifications()
             ->colors([
-                'primary' => Color::Indigo,
+                'primary' => Color::Violet,
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')

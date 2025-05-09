@@ -23,6 +23,8 @@ class ReportResource extends Resource
 
     protected static ?string $label = "Laporan Nilai";
 
+    protected static ?string $navigationGroup = 'Laporan';
+
     public static function canView(Model $record): bool
     {
         return $record->student->user->isAdmin();

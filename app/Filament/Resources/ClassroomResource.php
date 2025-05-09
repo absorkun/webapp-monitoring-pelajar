@@ -21,6 +21,8 @@ class ClassroomResource extends Resource
 
     protected static ?string $label = 'Ruang Kelas';
 
+    protected static ?string $navigationGroup = 'Master Data';
+
     public static function canview(Model $record): bool
     {
         return Filament::auth()->user()->isAdmin();

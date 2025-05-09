@@ -23,6 +23,8 @@ class SubjectResource extends Resource
 
     protected static ?string $label = 'Mata Pelajaran';
 
+    protected static ?string $navigationGroup = 'Master Data';
+    
     public static function canView(Model $record): bool
     {
         return Filament::auth()->user()->isAdmin();

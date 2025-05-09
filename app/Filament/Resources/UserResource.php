@@ -21,6 +21,8 @@ class UserResource extends Resource
 
     protected static ?string $label = 'Data Pengguna';
 
+    protected static ?string $navigationGroup = 'Pengaturan';
+
     public static function canAccess(): bool
     {
         return Filament::auth()->user()->isAdmin();

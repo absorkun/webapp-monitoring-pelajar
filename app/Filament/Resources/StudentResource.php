@@ -21,6 +21,8 @@ class StudentResource extends Resource
 
     protected static ?string $label = 'Data Siswa';
 
+    protected static ?string $navigationGroup = 'Master Data';
+
     public static function canView(Model $record): bool
     {
         return $record->user->isAdmin();
