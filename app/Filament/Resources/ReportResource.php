@@ -25,9 +25,11 @@ class ReportResource extends Resource
 
     protected static ?string $navigationGroup = 'Laporan';
 
+    protected static ?int $navigationSort = 11;
+
     public static function canView(Model $record): bool
     {
-        return $record->student->user->isAdmin();
+        return Filament::auth()->user()->isAdmin();
     }
 
     public static function canCreate(): bool
@@ -37,12 +39,12 @@ class ReportResource extends Resource
 
     public static function canEdit(Model $record): bool
     {
-        return $record->student->user->isAdmin();
+        return Filament::auth()->user()->isAdmin();
     }
 
     public static function canDelete(Model $record): bool
     {
-        return $record->student->user->isAdmin();
+        return Filament::auth()->user()->isAdmin();
     }
 
     public static function canDeleteAny(): bool

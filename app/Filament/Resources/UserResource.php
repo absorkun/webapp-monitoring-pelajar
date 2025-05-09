@@ -23,6 +23,8 @@ class UserResource extends Resource
 
     protected static ?string $navigationGroup = 'Pengaturan';
 
+    protected static ?int $navigationSort = 21;
+    
     public static function canAccess(): bool
     {
         return Filament::auth()->user()->isAdmin();

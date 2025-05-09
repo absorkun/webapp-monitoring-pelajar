@@ -34,8 +34,9 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
-            ->brandName('MTSS Iklas Jawilan')
-            ->brandLogo(asset('/storage/logo.webp'))
+            ->theme(asset('css/filament/admin/theme.css'))
+            ->brandName('MTSS Ikhlas Jawilan')
+            ->brandLogo(fn() => view('components.brand-logo'))
             ->login(Login::class)
             ->profile(isSimple: false)
             ->userMenuItems([
@@ -47,22 +48,23 @@ class AdminPanelProvider extends PanelProvider
                     ->url(fn() => EditProfile::getUrl())
                     ->icon('heroicon-o-user-circle')
                     ->group('Pengaturan')
+                    ->sort(22)
                     ->isActiveWhen(fn(): bool => request()->routeIs(EditProfile::getRouteName())),
             ])
             ->navigationGroups([
-                NavigationGroup::make()
-                    ->label('Pengaturan')
-                    ->collapsed(false),
                 NavigationGroup::make()
                     ->label('Master Data')
                     ->collapsed(false),
                 NavigationGroup::make()
                     ->label('Laporan')
                     ->collapsed(false),
+                NavigationGroup::make()
+                    ->label('Pengaturan')
+                    ->collapsed(false),
             ])
             ->databaseNotifications()
             ->colors([
-                'primary' => Color::Violet,
+                'primary' => Color::Indigo,
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')

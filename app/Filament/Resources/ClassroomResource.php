@@ -23,6 +23,8 @@ class ClassroomResource extends Resource
 
     protected static ?string $navigationGroup = 'Master Data';
 
+    protected static ?int $navigationSort = 2;
+
     public static function canview(Model $record): bool
     {
         return Filament::auth()->user()->isAdmin();

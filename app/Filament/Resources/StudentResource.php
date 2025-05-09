@@ -23,9 +23,11 @@ class StudentResource extends Resource
 
     protected static ?string $navigationGroup = 'Master Data';
 
+    protected static ?int $navigationSort = 1;
+
     public static function canView(Model $record): bool
     {
-        return $record->user->isAdmin();
+        return Filament::auth()->user()->isAdmin();
     }
 
     public static function canCreate(): bool
@@ -35,12 +37,12 @@ class StudentResource extends Resource
 
     public static function canEdit(Model $record): bool
     {
-        return $record->user->isAdmin();
+        return Filament::auth()->user()->isAdmin();
     }
 
     public static function canDelete(Model $record): bool
     {
-        return $record->user->isAdmin();
+        return Filament::auth()->user()->isAdmin();
     }
 
     public static function canDeleteAny(): bool
@@ -56,7 +58,7 @@ class StudentResource extends Resource
                     ->relationship('user', 'email', fn(Builder $query) => $query->where('role', 'siswa')->whereDoesntHave('student'))
                     ->unique(ignoreRecord: true)
                     ->label('Username/Email')
-                    ->required(),
+                    ->required(fn($context) => $context === 'create'),
                 Forms\Components\TextInput::make('name')
                     ->label('Nama')
                     ->required()
@@ -64,6 +66,7 @@ class StudentResource extends Resource
                 Forms\Components\TextInput::make('nisn')
                     ->label('NISN')
                     ->numeric()
+                    ->unique()
                     ->required()
                     ->maxLength(255),
                 Forms\Components\Radio::make('gender')

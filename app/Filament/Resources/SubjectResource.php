@@ -25,6 +25,8 @@ class SubjectResource extends Resource
 
     protected static ?string $navigationGroup = 'Master Data';
     
+    protected static ?int $navigationSort = 3;
+    
     public static function canView(Model $record): bool
     {
         return Filament::auth()->user()->isAdmin();
