@@ -25,6 +25,7 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Saade\FilamentFullCalendar\FilamentFullCalendarPlugin;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -44,7 +45,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->navigationItems([
                 NavigationItem::make()
-                    ->label('Profil')
+                    ->label('Akun')
                     ->url(fn() => EditProfile::getUrl())
                     ->icon('heroicon-o-user-circle')
                     ->group('Pengaturan')
@@ -75,6 +76,13 @@ class AdminPanelProvider extends PanelProvider
             ->widgets([
                 SchoolBiography::class,
                 SchoolProfileWidget::class,
+            ])
+            ->plugins([
+                FilamentFullCalendarPlugin::make()
+                    ->selectable()
+                    ->editable()
+                    ->locale('id')
+                    ->timezone('Asia/Jakarta'),
             ])
             ->middleware([
                 EncryptCookies::class,
