@@ -3,6 +3,7 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Pages\Auth\Login;
+use App\Filament\Widgets\LogoWidget;
 use App\Filament\Widgets\SchoolBiography;
 use App\Filament\Widgets\SchoolProfileWidget;
 use Filament\Facades\Filament;
@@ -45,7 +46,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->navigationItems([
                 NavigationItem::make()
-                    ->label('Akun')
+                    ->label('Profil Pengguna')
                     ->url(fn() => EditProfile::getUrl())
                     ->icon('heroicon-o-user-circle')
                     ->group('Pengaturan')
@@ -74,6 +75,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
+                LogoWidget::class,
                 SchoolBiography::class,
                 SchoolProfileWidget::class,
             ])

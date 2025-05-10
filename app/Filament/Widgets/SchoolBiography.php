@@ -11,6 +11,9 @@ class SchoolBiography extends Widget
 
     protected static ?int $sort = 2;
 
+    protected int | string | array $columnSpan = 'half';
+
+
     protected function getViewData(): array
     {
         $user = Filament::auth()->user();

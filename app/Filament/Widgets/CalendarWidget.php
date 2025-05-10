@@ -3,6 +3,10 @@
 namespace App\Filament\Widgets;
 
 use App\Models\CalendarEvent;
+use Filament\Actions\CreateAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\EditAction;
+use Filament\Facades\Filament;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\TextInput;
@@ -14,6 +18,11 @@ use Saade\FilamentFullCalendar\Widgets\FullCalendarWidget;
 class CalendarWidget extends FullCalendarWidget
 {
     public Model | string | null $model = CalendarEvent::class;
+
+    protected static ?int $sort = 3;
+
+    protected int | string | array $columnSpan = 'full';
+
 
     public function fetchEvents(array $info): array
     {
@@ -33,6 +42,7 @@ class CalendarWidget extends FullCalendarWidget
 
     public function getFormSchema(): array
     {
+
         return [
             TextInput::make('title')
                 ->label('Judul Event')
@@ -48,35 +58,4 @@ class CalendarWidget extends FullCalendarWidget
                 ]),
         ];
     }
-
-    // public function createEvent(array $data): array
-    // {
-    //     $event = CalendarEvent::create($data);
-
-    //     return [
-    //         'id' => $event->id,
-    //         'title' => $event->title,
-    //         'start' => $event->start,
-    //         'end' => $event->end,
-    //     ];
-    // }
-
-    // public function updateEvent(array $data): array
-    // {
-    //     $event = CalendarEvent::findOrFail($data['id']);
-    //     $event->update($data);
-
-    //     return [
-    //         'id' => $event->id,
-    //         'title' => $event->title,
-    //         'start' => $event->start,
-    //         'end' => $event->end,
-    //     ];
-    // }
-
-    // public function deleteEvent(array $data): bool
-    // {
-    //     $event = CalendarEvent::findOrFail($data['id']);
-    //     return $event->delete();
-    // }
 }

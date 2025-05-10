@@ -1,12 +1,6 @@
-<x-filament-widgets::widget class="rounded-xl bg-white shadow-sm ring-1 ring-gray-950/5 dark:bg-gray-900 dark:ring-white/10">
-    <x-filament::section 
-        heading="Profil Sekolah" 
-        heading-class="text-xl font-bold text-gray-900 dark:text-white"
-        icon="heroicon-o-academic-cap"
-        icon-color="text-primary-500"
-        icon-size="h-6 w-6"
-        class="!p-6"
-    >
+<x-filament-widgets::widget>
+    <x-filament::section heading="Profil Sekolah" heading-class="text-xl font-bold"
+        icon="heroicon-o-academic-cap" icon-color="text-primary-500" icon-size="h-6 w-6" class="!p-6">
         <div class="space-y-5">
             <!-- Data -->
             @foreach ($data as $label => $value)

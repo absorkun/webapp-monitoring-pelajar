@@ -24,7 +24,7 @@ class SchoolProfileWidget extends Widget
                 'NPSN' => '20622882',
                 'Alamat' => 'JL. RAYA CIKANDE RANGKASBITUNG KM.10',
                 'Kecamatan' => 'JAWILAN',
-                'Kabupaten/Kota' => 'KABUPATEN SERANG',
+                'Kabupaten' => 'KABUPATEN SERANG',
                 'Provinsi' => 'BANTEN',
             ],
         ];
