@@ -75,6 +75,11 @@ class StudentResource extends Resource
                     ->formatStateUsing(fn($state) => strtoupper($state))
                     ->inline(false)
                     ->required(),
+                Forms\Components\DatePicker::make('birthdate')
+                    ->label('Tanggal Lahir')
+                    ->required(),
+                Forms\Components\TextInput::make('address')
+                    ->label('Alamat'),
                 Forms\Components\Select::make('classroom_id')
                     ->label('Kelas')
                     ->relationship('classroom', 'name'),
@@ -98,10 +103,6 @@ class StudentResource extends Resource
                     ->label('NISN')
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('classroom.name')
-                    ->label('Kelas')
-                    ->numeric()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('gender')
                     ->label('Jenis Kelamin')
                     ->badge()
@@ -113,10 +114,20 @@ class StudentResource extends Resource
                         'L' => 'primary',
                         'P' => 'danger',
                     }),
+                Tables\Columns\TextColumn::make('birthdate')
+                    ->label('Tanggal Lahir')
+                    ->date(format: 'd F Y', timezone: 'Asia/Jakarta'),
+                Tables\Columns\TextColumn::make('address')
+                    ->label('Alamat')
+                    ->lineClamp(1),
                 Tables\Columns\TextColumn::make('user.email')
                     ->label('Email')
                     ->numeric()
                     ->hidden(fn() => ! Filament::auth()->user()->isAdmin())
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('classroom.name')
+                    ->label('Kelas')
+                    ->numeric()
                     ->sortable(),
                 Tables\Columns\IconColumn::make('is_active')
                     ->label('Status Keaktifan')

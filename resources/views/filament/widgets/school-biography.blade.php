@@ -53,6 +53,18 @@
                             {{ $gender }}</p>
                     </div>
                 </div>
+                {{-- Birthdate --}}
+                <div class="flex items-start gap-4 mb-5">
+                    <div
+                        class="flex h-9 w-9 items-center justify-center rounded-lg bg-amber-50 text-amber-600 dark:bg-amber-500/10 dark:text-amber-400">
+                        <x-heroicon-s-calendar class="h-5 w-5" />
+                    </div>
+                    <div class="space-y-1">
+                        <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Tanggal Lahir</p>
+                        <p class="text-base font-medium text-gray-900 dark:text-white">
+                            {{ $birthdate }}</p>
+                    </div>
+                </div>
             @endif
 
             <!-- Role -->
@@ -74,8 +86,9 @@
                     <x-heroicon-s-calendar class="h-5 w-5" />
                 </div>
                 <div class="space-y-1">
-                    <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Bergabung Sejak</p>
-                    <p class="text-base font-medium text-gray-900 dark:text-white">{{ $created_at->format('d M Y') }}
+                    <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Alamat</p>
+                    <p class="text-base font-medium text-gray-900 dark:text-white">
+                        {{ \Illuminate\Support\Str::words($address, 5, '...') }}
                     </p>
                 </div>
             </div>

@@ -1,4 +1,4 @@
-.PHONY: install
+.PHONY: install dev
 
 install:
 	@echo "📦 Menghapus database Laravel jika ada..."
@@ -22,8 +22,25 @@ install:
 	sh ./set-production.sh
 
 	@echo "🔐 Mengatur permission vendor dan storage..."
-	php artisan queu:clear
-	php artisan queu:work
+	php artisan queue:clear
+	php artisan queue:work
+
+dev:
+	@echo "📦 Menjalankan composer install..."
+	composer install
+
+	@echo "⚙️ Menjalankan php artisan..."
+	php artisan key:generate
+	php artisan migrate --force
+	php artisan db:seed --force
+	php artisan storage:link
+	php artisan optimize
+	php artisan config:cache
+	php artisan route:cache
+	php artisan view:cache
+	php artisan event:cache
+	php artisan queue:clear
+
 
 migrate:
 	@ehco "Menjalankan fresh migrate"

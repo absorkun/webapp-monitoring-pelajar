@@ -8,7 +8,16 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Student extends Model
 {
-    protected $fillable = ['name', 'nisn', 'gender', 'is_active', 'user_id', 'classroom_id'];
+    protected $fillable = [
+        'name',
+        'nisn',
+        'gender',
+        'birthdate',
+        'address',
+        'is_active',
+        'user_id',
+        'classroom_id'
+    ];
 
     public const getGenders = ['L' => 'Laki-laki', 'P' => 'Perempuan'];
 

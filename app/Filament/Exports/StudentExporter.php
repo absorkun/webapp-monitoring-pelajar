@@ -21,6 +21,8 @@ class StudentExporter extends Exporter
             ExportColumn::make('gender'),
             ExportColumn::make('classroom.name'),
             ExportColumn::make('user.email'),
+            ExportColumn::make('birthdate'),
+            ExportColumn::make('address'),
             ExportColumn::make('is_active'),
         ];
     }

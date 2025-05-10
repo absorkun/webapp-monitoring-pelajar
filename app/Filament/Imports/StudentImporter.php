@@ -31,6 +31,12 @@ class StudentImporter extends Importer
                 ->requiredMapping()
                 ->castStateUsing(fn($state) => strtoupper($state))
                 ->rules(['required']),
+            ImportColumn::make('birthdate')
+                ->requiredMapping()
+                ->rules(['required', 'max:255']),
+            ImportColumn::make('address')
+                ->requiredMapping()
+                ->rules(['required', 'max:255']),
             // ImportColumn::make('is_active')
             //     ->requiredMapping()
             //     ->boolean()

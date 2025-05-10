@@ -17,7 +17,9 @@ return new class extends Migration
             $table->foreignId('classroom_id')->nullable()->constrained()->nullOnDelete();
             $table->string('name')->index();
             $table->string('nisn')->unique();
-            $table->char('gender')->unique();
+            $table->char('gender');
+            $table->date('birthdate');
+            $table->string('address');
             $table->boolean('is_active')->default(true);
             $table->timestamps();
         });

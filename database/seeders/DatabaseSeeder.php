@@ -15,7 +15,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
 
         User::firstOrCreate([
             'name' => 'admin',
@@ -23,6 +22,8 @@ class DatabaseSeeder extends Seeder
             'password' => 'password',
             'role' => 'admin',
         ]);
+
+        // User::factory(20)->create();
 
         Classroom::insert([
             ['name' => 'VII. 1'],

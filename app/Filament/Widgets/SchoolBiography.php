@@ -25,15 +25,16 @@ class SchoolBiography extends Widget
         }
 
         return [
-            'name' => $user->name,
-            'email' => $user->email,
-            'role' => $user->role,
-            'created_at' => $user->created_at,
+            'name' => $user->name ?? '',
+            'email' => $user->email ?? '',
+            'role' => $user->role ?? '',
+            'address' => $user->student->address ?? '',
             'classroom' => $user->student->classroom->name ?? '',
             'gender' => match ($user->student->gender) {
                 'L' => 'Laki-laki',
                 'P' => 'Perempuan',
             } ?? '',
+            'birthdate' => $user->student->birthdate ?? '',
         ];
     }
 }
