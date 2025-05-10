@@ -2,8 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\StudentResource\Pages;
-use App\Models\Student;
+use App\Filament\Resources\TeacherResource\Pages;
+use App\Filament\Resources\TeacherResource\RelationManagers;
+use App\Models\Teacher;
 use Filament\Facades\Filament;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -12,18 +13,19 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class StudentResource extends Resource
+class TeacherResource extends Resource
 {
-    protected static ?string $model = Student::class;
+    protected static ?string $model = Teacher::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
+    protected static ?string $navigationIcon = 'heroicon-o-user-group';
 
-    protected static ?string $label = 'Data Siswa';
+    protected static ?string $label = 'Data Guru';
 
     protected static ?string $navigationGroup = 'Master Data';
 
-    protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = 4;
 
     public static function canView(Model $record): bool
     {
@@ -55,7 +57,7 @@ class StudentResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('user_id')
-                    ->relationship('user', 'email', fn(Builder $query) => $query->where('role', 'siswa')->whereDoesntHave('student'))
+                    ->relationship('user', 'email', fn(Builder $query) => $query->where('role', 'guru')->whereDoesntHave('teacher'))
                     ->unique(ignoreRecord: true)
                     ->label('Username/Email')
                     ->required(fn($context) => $context === 'create'),
@@ -63,15 +65,18 @@ class StudentResource extends Resource
                     ->label('Nama')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('nisn')
-                    ->label('NISN')
+                Forms\Components\Select::make('subject_id')
+                    ->label('Mata Pelajaran')
+                    ->relationship('subject', 'name'),
+                Forms\Components\TextInput::make('nuptk')
+                    ->label('NUPTK/NIK')
                     ->numeric()
                     ->unique(ignoreRecord: true)
                     ->required()
                     ->maxLength(255),
                 Forms\Components\Radio::make('gender')
                     ->label('Jenis Kelamin')
-                    ->options(Student::getGenders)
+                    ->options(Teacher::getGenders)
                     ->formatStateUsing(fn($state) => strtoupper($state))
                     ->inline(false)
                     ->required(),
@@ -80,14 +85,6 @@ class StudentResource extends Resource
                     ->required(),
                 Forms\Components\TextInput::make('address')
                     ->label('Alamat'),
-                Forms\Components\Select::make('classroom_id')
-                    ->label('Kelas')
-                    ->relationship('classroom', 'name'),
-                Forms\Components\Toggle::make('is_active')
-                    ->label('Status Keaktifan')
-                    ->inline(false)
-                    ->default(true)
-                    ->required(),
             ]);
     }
 
@@ -99,9 +96,13 @@ class StudentResource extends Resource
                     ->label('Nama')
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('nisn')
-                    ->label('NISN')
+                Tables\Columns\TextColumn::make('nuptk')
+                    ->label('NUPTK')
                     ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('subject.name')
+                    ->label('Mata Pelajaran')
+                    ->numeric()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('gender')
                     ->label('Jenis Kelamin')
@@ -125,25 +126,9 @@ class StudentResource extends Resource
                     ->numeric()
                     ->hidden(fn() => ! Filament::auth()->user()->isAdmin())
                     ->sortable(),
-                Tables\Columns\TextColumn::make('classroom.name')
-                    ->label('Kelas')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\IconColumn::make('is_active')
-                    ->label('Status Keaktifan')
-                    ->boolean()
-                    ->alignCenter()
-                    ->hidden(fn() => ! Filament::auth()->user()->isAdmin())
-                    ->sortable(),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('is_active')
-                    ->options([true => 'Aktif', false => 'Non Aktif']),
-                Tables\Filters\SelectFilter::make('classroom_id')
-                    ->label('Kelas')
-                    ->relationship('classroom', 'name')
-                    ->preload()
-                    ->multiple(),
+                //
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
@@ -168,9 +153,9 @@ class StudentResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListStudents::route('/'),
-            'create' => Pages\CreateStudent::route('/create'),
-            'edit' => Pages\EditStudent::route('/{record}/edit'),
+            'index' => Pages\ListTeachers::route('/'),
+            'create' => Pages\CreateTeacher::route('/create'),
+            'edit' => Pages\EditTeacher::route('/{record}/edit'),
         ];
     }
 }

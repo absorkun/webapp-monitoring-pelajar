@@ -11,16 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('reports', function (Blueprint $table) {
+        Schema::create('teachers', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('student_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('classroom_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignId('user_id')->unique()->nullable()->constrained()->nullOnDelete();
             $table->foreignId('subject_id')->nullable()->constrained()->nullOnDelete();
-            $table->integer('score');
-            $table->tinyInteger('semester');
+            $table->string('name')->index();
+            $table->string('nuptk')->unique();
+            $table->char('gender');
+            $table->date('birthdate');
+            $table->string('address');
             $table->timestamps();
-
-            $table->unique(['student_id', 'classroom_id', 'subject_id', 'semester']);
         });
     }
 
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('reports');
+        Schema::dropIfExists('teachers');
     }
 };

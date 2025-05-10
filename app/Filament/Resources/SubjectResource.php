@@ -24,9 +24,9 @@ class SubjectResource extends Resource
     protected static ?string $label = 'Mata Pelajaran';
 
     protected static ?string $navigationGroup = 'Master Data';
-    
+
     protected static ?int $navigationSort = 3;
-    
+
     public static function canView(Model $record): bool
     {
         return Filament::auth()->user()->isAdmin();
@@ -69,6 +69,9 @@ class SubjectResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->sortable()
                     ->searchable(),
+                Tables\Columns\TextColumn::make('teachers')
+                    ->label('Jumlah Guru')
+                    ->formatStateUsing(fn($state, $record) => $record->teachers()->count())
                 // Tables\Columns\TextColumn::make('created_at')
                 //     ->dateTime()
                 //     ->sortable()

@@ -45,6 +45,7 @@ class ReportImporter extends Importer
             'classroom_id' => $this->data['classroom'],
             'semester' => $this->data['semester'],
             'subject_id' => $this->data['subject'],
+            'student_id' => $this->data['student'],
         ]);
 
         // return new Report();

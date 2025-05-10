@@ -4,19 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Student extends Model
+class Teacher extends Model
 {
     protected $fillable = [
         'name',
-        'nisn',
+        'nuptk',
         'gender',
         'birthdate',
         'address',
-        'is_active',
         'user_id',
-        'classroom_id'
+        'subject_id'
     ];
 
     public const getGenders = ['L' => 'Laki-laki', 'P' => 'Perempuan'];
@@ -30,13 +28,8 @@ class Student extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function classroom(): BelongsTo
+    public function subject(): BelongsTo
     {
-        return $this->belongsTo(Classroom::class);
-    }
-
-    public function reports(): HasMany
-    {
-        return $this->hasMany(Report::class);
+        return $this->belongsTo(Subject::class);
     }
 }
