@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('status')->index();
             $table->timestamps();
 
-            $table->unique(['student_id', 'date', 'subject_id']);
+            $table->unique(['student_id', 'teacher_id', 'subject_id', 'date']);
         });
     }
 

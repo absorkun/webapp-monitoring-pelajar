@@ -14,12 +14,12 @@ class ReportExporter extends Exporter
     public static function getColumns(): array
     {
         return [
-            ExportColumn::make('id'),
-            ExportColumn::make('student.name'),
-            ExportColumn::make('classroom.name'),
-            ExportColumn::make('semester'),
-            ExportColumn::make('subject.name'),
-            ExportColumn::make('score'),
+            // ExportColumn::make('id'),
+            ExportColumn::make('student.name')->label('Nama Siswa'),
+            ExportColumn::make('classroom.name')->label('Kelas'),
+            ExportColumn::make('semester')->label('Semester'),
+            ExportColumn::make('subject.name')->label('Mata Pelajaran'),
+            ExportColumn::make('score')->label('Nilai'),
         ];
     }
 

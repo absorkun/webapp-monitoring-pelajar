@@ -15,24 +15,29 @@ class ReportImporter extends Importer
     {
         return [
             ImportColumn::make('student')
+                ->label('Nama/NISN Siswa')
                 ->requiredMapping()
-                ->relationship(resolveUsing: ['nisn', 'id', 'name'])
+                ->relationship(resolveUsing: ['nisn', 'name'])
                 ->rules(['required']),
             ImportColumn::make('classroom')
+                ->label('Kelas')
                 ->requiredMapping()
-                ->relationship(resolveUsing: ['id', 'name'])
+                ->relationship(resolveUsing: 'name')
                 ->castStateUsing(fn($state) => strtoupper($state))
                 ->rules(['required']),
             ImportColumn::make('semester')
+                ->label('Semester')
                 ->requiredMapping()
                 ->numeric()
                 ->rules(['required', 'integer']),
             ImportColumn::make('subject')
+                ->label('Mata Pelajaran')
                 ->requiredMapping()
-                ->relationship(resolveUsing: ['id', 'name'])
+                ->relationship(resolveUsing: 'name')
                 ->castStateUsing(fn($state) => strtoupper($state))
                 ->rules(['required']),
             ImportColumn::make('score')
+                ->label('Nilai')
                 ->requiredMapping()
                 ->numeric()
                 ->rules(['required', 'integer']),

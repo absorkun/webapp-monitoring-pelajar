@@ -14,15 +14,14 @@ class TeacherExporter extends Exporter
     public static function getColumns(): array
     {
         return [
-            ExportColumn::make('id')
-                ->label('ID'),
-            ExportColumn::make('name'),
-            ExportColumn::make('nuptk'),
-            ExportColumn::make('gender'),
-            ExportColumn::make('subject.name'),
-            ExportColumn::make('user.email'),
-            ExportColumn::make('birthdate'),
-            ExportColumn::make('address'),
+            // ExportColumn::make('id')->label('ID'),
+            ExportColumn::make('name')->label('Nama Guru'),
+            ExportColumn::make('nuptk')->label('NUPTK'),
+            ExportColumn::make('gender')->label('Jenis Kelamin'),
+            ExportColumn::make('subject.name')->label('Mata Pelajaran'),
+            ExportColumn::make('user.email')->label('Username/Email'),
+            ExportColumn::make('birthdate')->label('Tanggal Lahir'),
+            ExportColumn::make('address')->label('Alamat'),
         ];
     }
 

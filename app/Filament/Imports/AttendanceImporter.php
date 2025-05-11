@@ -15,31 +15,39 @@ class AttendanceImporter extends Importer
     {
         return [
             ImportColumn::make('classroom')
+                ->label('Kelas')
                 ->requiredMapping()
-                ->relationship(resolveUsing: ['id', 'name'])
+                ->relationship(resolveUsing: 'name')
                 ->rules(['required']),
             ImportColumn::make('teacher')
+                ->label('Nama/NUPTK Guru')
                 ->requiredMapping()
-                ->relationship(resolveUsing: ['id', 'nuptk', 'name'])
+                ->relationship(resolveUsing: ['nuptk', 'name'])
                 ->rules(['required']),
             ImportColumn::make('subject')
+                ->label('Mata Pelajaran')
                 ->requiredMapping()
-                ->relationship(resolveUsing: ['id', 'name'])
+                ->relationship(resolveUsing: 'name')
                 ->rules(['required']),
             ImportColumn::make('student')
+                ->label('Nama/NISN Siswa')
                 ->requiredMapping()
-                ->relationship(resolveUsing: ['id', 'nisn', 'name'])
+                ->relationship(resolveUsing: ['nisn', 'name'])
                 ->rules(['required']),
             ImportColumn::make('date')
+                ->label('Tanggal')
                 ->requiredMapping()
                 ->rules(['required', 'date']),
             ImportColumn::make('start')
+                ->label('Waktu Mulai')
                 ->requiredMapping()
                 ->rules(['required']),
             ImportColumn::make('end')
+                ->label('Waktu Berakhir')
                 ->requiredMapping()
                 ->rules(['required']),
             ImportColumn::make('status')
+                ->label('Status/Keterangan')
                 ->requiredMapping()
                 ->castStateUsing(fn($state) => strtoupper($state))
                 ->rules(['required', 'max:255']),
@@ -48,14 +56,17 @@ class AttendanceImporter extends Importer
 
     public function resolveRecord(): ?Attendance
     {
-        // return Attendance::firstOrNew([
-        //     // Update existing records, matching them by `$this->data['column_name']`
-        //     'student_id' => $this->data['student'],
-        //     'subject_id' => $this->data['subject'],
-        //     'date' => $this->data['date'],
-        // ]);
+        // Coba dulu mencari record yang ada
+        return Attendance::firstOrNew([
+            'teacher_id' => $this->data['teacher'],
+            'student_id' => $this->data['student'],
+            'subject_id' => $this->data['subject'],
+            'date' => $this->data['date'],
+            // 'start' => $this->data['start'],
+            // 'end' => $this->data['end'],
+        ]);
 
-        return new Attendance();
+        // return new Attendance();
     }
 
     public static function getCompletedNotificationBody(Import $import): string

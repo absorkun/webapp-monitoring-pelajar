@@ -14,18 +14,17 @@ class AttendanceExporter extends Exporter
     public static function getColumns(): array
     {
         return [
-            ExportColumn::make('id')
-                ->label('ID'),
-            ExportColumn::make('classroom.name'),
-            ExportColumn::make('teacher.name'),
-            ExportColumn::make('subject.name'),
-            ExportColumn::make('student.name'),
-            ExportColumn::make('date'),
-            ExportColumn::make('start'),
-            ExportColumn::make('end'),
-            ExportColumn::make('status'),
-            ExportColumn::make('created_at'),
-            ExportColumn::make('updated_at'),
+            // ExportColumn::make('id')->label('ID'),
+            ExportColumn::make('classroom.name')->label('Kelas'),
+            ExportColumn::make('teacher.name')->label('Nama Guru'),
+            ExportColumn::make('subject.name')->label('Mata Pelajaran'),
+            ExportColumn::make('student.name')->label('Nama Siswa'),
+            ExportColumn::make('date')->label('Tanggal'),
+            ExportColumn::make('start')->label('Waktu Mulai'),
+            ExportColumn::make('end')->label('Waktu Berakhir'),
+            ExportColumn::make('status')->label('Status/Keterangan'),
+            // ExportColumn::make('created_at'),
+            // ExportColumn::make('updated_at'),
         ];
     }
 

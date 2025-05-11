@@ -2,10 +2,13 @@
 
 namespace App\Filament\Widgets;
 
+use App\Filament\Resources\CalendarEventResource;
 use App\Models\CalendarEvent;
+use Filament\Actions\Action;
 use Filament\Actions\CreateAction;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
 use Filament\Facades\Filament;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Grid;
@@ -36,6 +39,10 @@ class CalendarWidget extends FullCalendarWidget
                     ->title($event->title)
                     ->start($event->start)
                     ->end($event->end)
+                    ->url(
+                        url: CalendarEventResource::getUrl(name: 'view', parameters: ['record' => $event]),
+                        shouldOpenUrlInNewTab: true,
+                    )
             )
             ->toArray();
     }

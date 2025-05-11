@@ -15,26 +15,33 @@ class StudentImporter extends Importer
     {
         return [
             ImportColumn::make('user')
+                ->label('Username/Email')
                 ->requiredMapping()
-                ->relationship(resolveUsing: ['id', 'email', 'name'])
+                ->relationship(resolveUsing: ['email', 'name'])
                 ->rules(['required']),
             ImportColumn::make('classroom')
-                ->relationship(resolveUsing: ['id', 'name'])
+                ->label('Kelas')
+                ->relationship(resolveUsing: 'name')
                 ->castStateUsing(fn($state) => strtoupper($state)),
             ImportColumn::make('name')
+                ->label('Nama Siswa')
                 ->requiredMapping()
                 ->rules(['required', 'max:255']),
             ImportColumn::make('nisn')
+                ->label('NISN')
                 ->requiredMapping()
                 ->rules(['required', 'max:255']),
             ImportColumn::make('gender')
+                ->label('Jenis Kelamin')
                 ->requiredMapping()
                 ->castStateUsing(fn($state) => strtoupper($state))
                 ->rules(['required']),
             ImportColumn::make('birthdate')
+                ->label('Tanggal Lahir')
                 ->requiredMapping()
                 ->rules(['required', 'max:255']),
             ImportColumn::make('address')
+                ->label('Alamat')
                 ->requiredMapping()
                 ->rules(['required', 'max:255']),
             // ImportColumn::make('is_active')

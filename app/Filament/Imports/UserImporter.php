@@ -15,15 +15,18 @@ class UserImporter extends Importer
     {
         return [
             ImportColumn::make('name')
+                ->label('Nama')
                 ->requiredMapping()
                 ->rules(['required', 'max:255']),
             ImportColumn::make('email')
+                ->label('Username/Email')
                 ->requiredMapping()
                 ->rules(['required', 'max:255']),
             ImportColumn::make('password')
                 ->requiredMapping()
                 ->rules(['required', 'max:255']),
             ImportColumn::make('role')
+                ->label('Role/Peran')
                 ->requiredMapping()
                 ->castStateUsing(fn($state) => strtolower($state))
                 ->rules(['required', 'max:255']),

@@ -57,20 +57,25 @@ class ReportResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('student_id')
+                    ->label('Username/Email')
                     ->relationship('student', 'name')
                     ->required(),
                 Forms\Components\Select::make('classroom_id')
+                    ->label('Kelas')
                     ->relationship('classroom', 'name')
                     ->required(),
                 Forms\Components\Select::make('semester')
+                    ->label('Semester')
                     ->options(Report::getSemesters)
                     ->required(),
                 Forms\Components\Select::make('subject_id')
+                    ->label('Mata Pelajaran')
                     ->relationship('subject', 'name')
                     ->preload()
                     ->searchable()
                     ->required(),
                 Forms\Components\TextInput::make('score')
+                    ->label('Nilai')
                     ->numeric()
                     ->maxValue(100)
                     ->minValue(0)
@@ -91,30 +96,37 @@ class ReportResource extends Resource
             })
             ->columns([
                 Tables\Columns\TextColumn::make('student.name')
+                    ->label('Nama Siswa')
                     ->numeric()
                     ->searchable()
                     ->sortable()
                     ->hidden(fn() => ! Filament::auth()->user()->isAdmin()),
                 Tables\Columns\TextColumn::make('subject.name')
+                    ->label('Mata Pelajaran')
                     ->numeric(),
                 Tables\Columns\TextColumn::make('classroom.name')
+                    ->label('Kelas')
                     ->alignCenter()
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('semester')
+                    ->label('Semester')
                     ->alignCenter()
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('score')
+                    ->label('Nilai')
                     ->alignCenter()
                     ->numeric()
                     ->sortable(),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('classroom_id')
+                    ->label('Kelas')
                     ->relationship('classroom', 'name')
                     ->multiple(),
                 Tables\Filters\SelectFilter::make('semester')
+                    ->label('Semester')
                     ->options(Report::getSemesters)
                     ->multiple(),
             ])

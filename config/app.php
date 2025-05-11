@@ -123,4 +123,5 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'berita' => env('BERITA', 'Salam sukses dan selamat beraktivitas!'),
 ];

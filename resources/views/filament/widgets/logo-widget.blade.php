@@ -6,9 +6,9 @@
                 {{ view('components.brand-logo') }}
             </div>
             <div class="text-left">
-                <h1 class="text-xl font-bold text-gray-800 mb-1">📢 Informasi Penting</h1>
+                <h1 class="text-xl font-bold text-gray-800 mb-1">📢 Sekilas Info</h1>
                 <p class="text-justify">
-                    Tanggal 12 Mei 2025 akan diadakan UAS susulan untuk siswa kelas 8 dan 9.
+                    {{ config('app.berita') }}
                 </p>
             </div>
         </div>

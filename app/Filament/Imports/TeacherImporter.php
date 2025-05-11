@@ -15,26 +15,33 @@ class TeacherImporter extends Importer
     {
         return [
             ImportColumn::make('user')
+                ->label('Username/Email')
                 ->requiredMapping()
-                ->relationship(resolveUsing: ['id', 'email', 'name'])
+                ->relationship(resolveUsing: ['email', 'name'])
                 ->rules(['required']),
             ImportColumn::make('subject')
-                ->relationship(resolveUsing: ['id', 'name'])
+                ->label('Mata Pelajaran')
+                ->relationship(resolveUsing: 'name')
                 ->castStateUsing(fn($state) => strtoupper($state)),
             ImportColumn::make('name')
+                ->label('Nama Guru')
                 ->requiredMapping()
                 ->rules(['required', 'max:255']),
             ImportColumn::make('nuptk')
+                ->label('NUPTK')
                 ->requiredMapping()
                 ->rules(['required', 'max:255']),
             ImportColumn::make('gender')
+                ->label('Jenis Kelamin')
                 ->requiredMapping()
                 ->castStateUsing(fn($state) => strtoupper($state))
                 ->rules(['required']),
             ImportColumn::make('birthdate')
+                ->label('Tanggal Lahir')
                 ->requiredMapping()
                 ->rules(['required', 'date']),
             ImportColumn::make('address')
+                ->label('Alamat')
                 ->requiredMapping()
                 ->rules(['required', 'max:255']),
         ];

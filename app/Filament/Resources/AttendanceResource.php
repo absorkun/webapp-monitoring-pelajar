@@ -57,6 +57,13 @@ class AttendanceResource extends Resource
     {
         return $form
             ->schema([
+                Forms\Components\Select::make('student_id')
+                    ->label('Siswa')
+                    ->relationship('student', 'name')
+                    ->searchable()
+                    ->preload()
+                    ->required(),
+                    
                 Forms\Components\Select::make('classroom_id')
                     ->label('Kelas')
                     ->relationship('classroom', 'name')
@@ -74,13 +81,6 @@ class AttendanceResource extends Resource
                 Forms\Components\Select::make('subject_id')
                     ->label('Mata Pelajaran')
                     ->relationship('subject', 'name')
-                    ->searchable()
-                    ->preload()
-                    ->required(),
-
-                Forms\Components\Select::make('student_id')
-                    ->label('Siswa')
-                    ->relationship('student', 'name')
                     ->searchable()
                     ->preload()
                     ->required(),
@@ -117,6 +117,11 @@ class AttendanceResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('student.name')
+                    ->label('Siswa')
+                    ->sortable()
+                    ->searchable(),
+
                 Tables\Columns\TextColumn::make('classroom.name')
                     ->label('Kelas')
                     ->sortable()
@@ -129,11 +134,6 @@ class AttendanceResource extends Resource
 
                 Tables\Columns\TextColumn::make('subject.name')
                     ->label('Mapel')
-                    ->sortable()
-                    ->searchable(),
-
-                Tables\Columns\TextColumn::make('student.name')
-                    ->label('Siswa')
                     ->sortable()
                     ->searchable(),
 
@@ -154,10 +154,10 @@ class AttendanceResource extends Resource
                     ->label('Status')
                     ->badge()
                     ->colors([
-                        'success' => 'hadir',
-                        'warning' => 'izin',
-                        'info' => 'sakit',
-                        'danger' => 'alfa',
+                        'success' => 'HADIR',
+                        'warning' => 'IZIN',
+                        'info' => 'SAKIT',
+                        'danger' => 'ALFA',
                     ])
                     ->searchable(),
 
@@ -211,7 +211,8 @@ class AttendanceResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->recordUrl(null);
     }
 
     public static function getRelations(): array

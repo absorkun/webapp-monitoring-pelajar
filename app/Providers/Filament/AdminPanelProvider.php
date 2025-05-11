@@ -81,8 +81,6 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->plugins([
                 FilamentFullCalendarPlugin::make()
-                    ->selectable()
-                    ->editable()
                     ->locale('id')
                     ->timezone('Asia/Jakarta'),
             ])
