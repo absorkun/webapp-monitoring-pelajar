@@ -1,0 +1,13 @@
+:80 {
+        root * /var/www/laravel/webapp-monitoring-pelajar/public
+
+        file_server
+
+        #reverse_proxy localhost:8080
+
+        #php_fastcgi localhost:9000
+        php_fastcgi unix//run/php/php-fpm.sock
+
+        #encode zstd gzip
+        encode gzip
+}
